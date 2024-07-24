@@ -165,12 +165,6 @@ local function parse_uri(uri, errs)
 end
 
 function M.get_closest_remote_compatible_rev(remote)
-  -- try upstream branch HEAD (a.k.a @{u})
-  local upstream_rev = get_rev("@{u}")
-  if upstream_rev then
-    return upstream_rev
-  end
-
   -- try HEAD
   if is_rev_in_remote("HEAD", remote) then
     local head_rev = get_rev("HEAD")
@@ -194,6 +188,12 @@ function M.get_closest_remote_compatible_rev(remote)
   local remote_rev = get_rev(remote)
   if remote_rev then
     return remote_rev
+  end
+
+  -- try upstream branch HEAD (a.k.a @{u})
+  local upstream_rev = get_rev("@{u}")
+  if upstream_rev then
+    return upstream_rev
   end
 
   vim.notify(
